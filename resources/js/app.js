@@ -5,28 +5,56 @@
  */
 
 require('./bootstrap');
+require('./jquery-3.3.1.min');
+require('./bootstrap.min');
+require('./jquery.nice-select.min');
+require('./jquery-ui.min');
+require('./jquery.slicknav');
+require('./mixitup.min');
+require('./owl.carousel.min');
+require('./main');
+
+import '../sass/app.scss';
+import '../sass/style.scss';
 
 window.Vue = require('vue').default;
 
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
+import VueRouter from 'vue-router';
+Vue.use(VueRouter);
 
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+import App from './components/App.vue';
+import TypeProductList from '../js/components/typeproduct/TypeProductList.vue';
+import AddTypeProduct from '../js/components/typeproduct/AddTypeProduct.vue';
+import Home from '../js/components/Home.vue';
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+//Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+import VueAxios from 'vue-axios';
+import axios from 'axios';
+import Vue from 'vue';
+Vue.use(VueAxios,axios);
 
-const app = new Vue({
-    el: '#app',
-});
+// const app = new Vue({
+//     el: '#app',
+// });
+
+const routes = [
+    {
+        name: '/home',
+        path: '/home',
+        component: Home
+    },
+    {
+        name: '/type-products',
+        path: '/type-products',
+        component: TypeProductList
+    },
+    {
+        name: '/add-type-products',
+        path: '/add-type-products',
+        component: AddTypeProduct
+    }
+];
+
+const router = new VueRouter({mode: 'history', routes: routes});
+const app = new Vue(Vue.util.extend({ router }, App)).$mount('#app');
